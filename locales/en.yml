@@ -1,0 +1,52 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright 2026 KasuganoMeow
+# This file is part of TakeoffDataRecorder (ToDR).
+# 
+# ToDR is free software: you can redistribute it and/or modify it under the terms of
+# the GNU Affero General Public License as published by the Free Software Foundation, 
+# either version 3 of the License, or (at your option) any later version.
+# 
+# ToDR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE. See the GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License along with 
+# ToDR. If not, see <https://www.gnu.org/licenses/>.
+
+basic:
+  error:    "Error"
+  usage:    "Usage"
+  option:   "Option"
+  err_opt:  "Invalid operation"
+  no_oper:  "No operation specified"
+  to_help:  "Please type \"help\" to see usage instructions"
+  err_io:   "I/O error"
+
+help_info:  
+  help:     "Output this help information"
+  record:   "Record a \"takeoff\""
+  version:  "Displays the version information of TakeoffDataRecorder"
+
+help: 
+  info:     "Output help information"
+  usage:    "todr help"
+
+record: 
+  info:     "Record a \"takeoff\""
+  usage:    "todr record"
+  to_star:  "Start recording this \"takeoff\""
+  to_name:  "Please enter your name (for data recognition)"
+  to_age:   "Please enter your age"
+  to_long:  "Please enter your \"aircraft\" length (cm)"
+  to_dura:  "Please enter your \"takeoff\" duration (sec)"
+  to_happ:  "Please enter your satisfaction level with the \"takeoff\" (%)"
+
+version:  
+  info:     "Displays the version information of TakeoffDataRecorder"
+  usage:    "todr version"
+
+data:
+  err_crea: "Unable to create file"
+  err_mdir: "Unable to create TakeoffDataRecorder folder, backed up to current directory"
+  create:   "The file has been created to"
+  write:    "The file has been written to"

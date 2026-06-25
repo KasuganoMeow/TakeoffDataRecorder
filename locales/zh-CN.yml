@@ -1,0 +1,52 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright 2026 KasuganoMeow
+# This file is part of TakeoffDataRecorder (ToDR).
+# 
+# ToDR is free software: you can redistribute it and/or modify it under the terms of
+# the GNU Affero General Public License as published by the Free Software Foundation, 
+# either version 3 of the License, or (at your option) any later version.
+# 
+# ToDR is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+# PURPOSE. See the GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License along with 
+# ToDR. If not, see <https://www.gnu.org/licenses/>.
+
+basic:
+  error:    "错误"
+  usage:    "用法"
+  option:   "选项"
+  err_opt:  "无效的选项"
+  no_oper:  "没有指定操作"
+  to_help:  "请使用 \"help\" 选项查看使用说明"
+  err_io:   "读写错误"
+
+help_info:  
+  help:     "输出本帮助信息"
+  record:   "记录一次 \"起飞\""
+  version:  "显示 TakeoffDataRecorder 的版本信息"
+
+help: 
+  info:     "输出帮助信息"
+  usage:    "todr help"
+
+record: 
+  info:     "记录一次 \"起飞\""
+  usage:    "todr record"
+  to_star:  "开始记录本次 \"起飞\""
+  to_name:  "请输入你的名字 (用于数据识别)"
+  to_age:   "请输入你的年龄"
+  to_long:  "请输入你的 \"飞机\" 长度 (厘米)"
+  to_dura:  "请输入你的 \"起飞\" 持续时间 (秒)"
+  to_happ:  "请输入你对 \"起飞\" 的满意度 (%)"
+
+version:  
+  info:     "显示 TakeoffDataRecorder 的版本信息"
+  usage:    "todr version"
+
+data:
+  err_crea: "无法创建文件"
+  err_mdir: "无法创建 TakeoffDataRecorder 文件夹，已回退到当前目录"
+  create:   "文件已创建到"
+  write:    "文件已写入到"

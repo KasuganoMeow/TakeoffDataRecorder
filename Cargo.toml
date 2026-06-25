@@ -1,0 +1,18 @@
+[package]
+name = "takeoffdatarecorder"
+version = "0.1.0"
+edition = "2024"
+license = "AGPL-3.0-or-later"
+
+[dependencies]
+home = "0.5.12"
+rust-i18n = "4.1.0"
+serde = "1.0.228"
+serde_yml = "0.0.13"
+sys-locale = "0.3.2"
+yansi = "1.0.1"
+
+
+[[bin]]
+name = "todr"
+path = "src/main.rs"
