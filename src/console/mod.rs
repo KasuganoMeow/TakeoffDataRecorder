@@ -14,3 +14,29 @@ PURPOSE. See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with 
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
+
+
+use crate::{
+    console::conloop::console_loop
+};
+
+mod conloop;
+
+pub fn todr_console() -> ! {
+    console_loop();
+}
+
+pub fn flush() {
+    if let Err(error) = std::io::Write::flush(&mut std::io::stdout()) {
+        crate::common::error::io_error(error);
+    }
+}
+
+pub fn readline() -> String{
+    let mut buffer = String::new();
+    if let Err(error) = std::io::stdin().read_line(&mut buffer) {
+        crate::common::error::io_error(error);
+    }
+    buffer
+}
+

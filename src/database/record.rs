@@ -30,9 +30,10 @@ use yansi::Paint;
 
 use crate::{
     TODR_VERSION, 
-    common::{
-        error::put_error, 
-        input::{get_string_from_input, get_u8_from_input, get_u64_from_input}
+    common::input::{
+        get_string_from_input, 
+        get_u8_from_input, 
+        get_u64_from_input
     },
     database::{
         IdentityInfoT, 
@@ -46,18 +47,26 @@ use crate::{
     yaml::serialization::data_to_yaml
 };
 
-pub fn record() -> ! {
-    println!("{}",t!("record.to_star").bold().white());
+pub fn record_to_database() {
+    println!(" {}",t!("database.record.start").white());
 
     let identity_info = IdentityInfoT {
-        name: get_string_from_input("common.wto_name"),
-        age:  get_u8_from_input("record.to_age"),
-        long: get_u8_from_input("record.to_long"),
+        name: get_string_from_input("database.record.input_name"),
+        age:  get_u8_from_input("database.record.input_age"),
+        long: get_u8_from_input("database.record.input_long"),
     };
 
+    
+    let raw_happ = get_u64_from_input("database.record.input_happiness");
+    let happ = std::cmp::min(raw_happ, 100);
+
+    if raw_happ > 100 {
+        eprintln!(" {}", t!("database.record.happiness_over_limit"));
+    }
+
     let takeoff_info = TakeoffInfoT {
-        duration: get_u64_from_input("record.to_dura"),
-        happiness: get_u64_from_input("record.to_happ"),
+        duration: get_u64_from_input("database.record.input_duration"),
+        happiness: happ,
     };
 
     // Get UNIX time
@@ -76,7 +85,7 @@ pub fn record() -> ! {
 
     // Build file name and path and create .fap file
     let home = home::home_dir().unwrap_or_else(|| {
-        eprintln!("{}", t!("record.err_home"));
+        eprintln!(" {}", t!("database.record.error_read_home"));
         std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
     });
     let dir = home.join("TakeoffDataRecorder");
@@ -84,39 +93,29 @@ pub fn record() -> ! {
     let filename = format!("{}-{}.fap", single_takeoff_data.identity.name, time);
 
     let data = match data_to_yaml(&single_takeoff_data) {
-        Ok(d) => d,
-        Err(e) => {
-            put_error(e.to_string());
-            record();
+        Ok(data) => data,
+        Err(error) => {
+            eprintln!(" {}", error);
+            return;
         }
     };
 
+    println!("");
+
     let file_path = match create_fap_file(&dir, &filename) {
-        Ok(fp) => fp,
-        Err(e) => {
-            put_error(e.to_string());
+        Ok(file_path) => file_path,
+        Err(error) => {
+            eprintln!(" {}", error);
             exit(1);
         }
     };
 
-    if let Err(e) = write_fap_file(&file_path, &data) {
-        put_error(e.to_string());
-        if let Err(e) = fs::remove_file(&file_path) {
-                put_error(e.to_string());
+    if let Err(error) = write_fap_file(&file_path, &data) {
+        eprintln!(" {}", error);
+        if let Err(error) = fs::remove_file(&file_path) {
+                eprintln!(" {}", error);
                 exit(1);
             }
-        record();
+        record_to_database();
     };
-
-    exit(0);
-}
-
-pub fn help_record() {
-    println!(
-        "{}{}\n{}: {}",
-        "record:  ".bold().blue(),
-        t!("help_info.record"),
-        t!("basic.usage"),
-        "todr record".green()
-    );
 }

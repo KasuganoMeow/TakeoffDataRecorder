@@ -15,7 +15,9 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
 use std::{
-    fs, io::{self, Write}, path::PathBuf, process::exit
+    fs,
+    path::PathBuf, 
+    process::exit
 };
 
 use rust_i18n::t;
@@ -23,7 +25,7 @@ use yansi::Paint;
 
 use crate::{
     common::error::put_error, 
-    data::{
+    database::{
         IdentityInfoStatsT, 
         StatisticsT, 
         TakeoffStatsT, 
@@ -32,28 +34,7 @@ use crate::{
     yaml::deserialization::yaml_to_data
 };
 
-pub fn stats() -> ! {
-    // Name
-    let name = loop {
-        let mut buffer = String::new();
-        print!("{}: ", t!("stats.to_name").bold().white());
-        if let Err(e) = io::stdout().flush() {
-            put_error(e.to_string());
-            continue;
-        }
-
-        if let Err(e) = io::stdin().read_line(&mut buffer) {
-            put_error(e.to_string());
-            continue;
-        }
-
-        if buffer.trim().is_empty() {
-            break "ANONYMOUS".to_string();
-        }
-
-        break buffer.trim().to_string();
-    };
-
+pub fn stats(name: String) -> ! {
     let home = home::home_dir().unwrap_or_else(|| {
         eprintln!("{}", t!("stats.err_home"));
         std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
@@ -62,9 +43,11 @@ pub fn stats() -> ! {
 
     let mut sum_duration: u64 = 0;
     let mut sum_happiness: u64 = 0;
+    let mut long_max: u8 = 0;
+    let mut long_min: u8 = 100;
 
     let identityinfo_stats = IdentityInfoStatsT {
-        long_grow_rate: 0,
+        long_diff: 0,
     };
 
     let takeoff_stats = TakeoffStatsT {
@@ -98,20 +81,20 @@ pub fn stats() -> ! {
         if path.is_file() {
             if let Some(filename) = path.file_name().and_then(|s| s.to_str()) {                
                 if filename.starts_with(&format!("{}-", name)) && (filename.ends_with(".fap")) {
-                    let content = match read_fap_file(&path) {
-                        Ok(content) => content,
-                        Err(error) => {
-                            put_error(error.to_string());
-                            exit(1);
-                        }
-                    };
+                    let content = read_fap_file(&path);
                     let data = match yaml_to_data(&content) {
                         Ok(data) => data,
                         Err(error) => {
                             put_error(error.to_string());
-                            stats()
+                            stats(name);
                         }
                     };
+                    if long_max < data.identity.long {
+                        long_max = data.identity.long;
+                    }
+                    if long_min > data.identity.long {
+                        long_min = data.identity.long
+                    }
                     sum_duration += data.takeoff.duration;
                     sum_happiness += data.takeoff.happiness;
                     statistics.file_count += 1;
@@ -125,8 +108,21 @@ pub fn stats() -> ! {
     }
     statistics.takeoff_stats.ave_duration = sum_duration / statistics.file_count;
     statistics.takeoff_stats.ave_happiness = sum_happiness / statistics.file_count;
-    println!("\n总共读取了 {} 个文件", statistics.file_count);
-    println!("{} 的平均 \"起飞\" 持续时间为 {} 秒", name, statistics.takeoff_stats.ave_duration);
-    println!("{} 的平均 \"起飞\" 满意度为 {}%", name, statistics.takeoff_stats.ave_happiness);
+    statistics.identityinfo_stats.long_diff = (long_max - long_min) as u16;
+
+    println!("\n{}: {}", t!("stats.sum_file"), statistics.file_count);
+    println!("{}{} {}s", name, t!("stats.ave_dura"), statistics.takeoff_stats.ave_duration);
+    println!("{}{} {}%", name, t!("stats.ave_happ"), statistics.takeoff_stats.ave_happiness);
+    println!("{}{} {}cm", name, t!("stats.long_dif"), statistics.identityinfo_stats.long_diff);
     exit(0);
+}
+
+pub fn help_stats() {
+    println!(
+        "{}{}\n{}: {}",
+        "record:  ".bold().blue(),
+        t!("help_info.record"),
+        t!("basic.usage"),
+        "todr stats".green()
+    );
 }

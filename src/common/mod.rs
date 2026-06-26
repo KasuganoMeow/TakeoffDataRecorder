@@ -16,3 +16,4 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
 pub mod error;
+pub mod input;

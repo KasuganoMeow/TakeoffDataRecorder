@@ -20,7 +20,7 @@ basic:
   err_opt:  "无效的选项"
   no_oper:  "没有指定操作"
   to_help:  "请使用 \"help\" 选项查看使用说明"
-  err_io:   "读写错误"
+  err_fatl: "致命错误"
 
 help_info:  
   help:     "输出本帮助信息"
@@ -34,25 +34,39 @@ help:
 record: 
   info:     "记录一次 \"起飞\""
   usage:    "todr record"
-  to_star:  "开始记录本次 \"起飞\""
-  to_name:  "请输入你的名字 (用于数据识别)"
-  to_age:   "请输入你的年龄"
-  to_long:  "请输入你的 \"飞机\" 长度 (厘米)"
-  to_dura:  "请输入你的 \"起飞\" 持续时间 (秒)"
-  to_happ:  "请输入你对 \"起飞\" 的满意度 (%)"
-  err_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
 
 stats:
-  to_name:  "请输入需要统计数据的名字"
   err_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
   err_user: "没有找到属于该用户的文件"
+  sum_file: "总共读取的文件数量"
+  ave_dura: " 的平均 \"起飞\" 时间为"
+  ave_happ: " 的平均 \"起飞\" 满意度为"
+  long_dif: " 的 \"飞机\" 最长和最短时的差异为"
 
-version:  
-  info:     "显示 TakeoffDataRecorder 的版本信息"
+version:
+  info:     "显示 ToDR 的版本信息"
   usage:    "todr version"
 
-data:
-  err_crea: "无法创建文件"
-  err_mdir: "无法创建 TakeoffDataRecorder 文件夹，已回退到当前目录"
-  create:   "文件已创建到"
-  write:    "文件已写入到"
+database:
+  what_search_type: "按时间搜索或按名字搜索? [t(时间)/n(名字)]"
+  input_search_word: "请输入搜索关键字"
+  collect:
+    table_name: "名字"
+    table_time: "时间"
+    found_file: "在数据库中找到如下数据"
+  record:
+    start: "开始记录本次 \"起飞\" 数据"
+    input_name: "请输入你的名字 (用于数据识别)"
+    input_age: "请输入你的年龄"
+    input_long: "请输入你的 \"飞机\" 长度 (厘米)"
+    input_duration: "请输入你的 \"起飞\" 持续时间 (秒)"
+    input_happiness: "请输入你对 \"起飞\" 的满意度 (%)"
+    happiness_over_limit: "满意度超过上限，自动设置为 100%"
+    error_read_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
+  search:
+    no_found_result: "其中没有包含关键字的结果"
+  write:
+    create_file: "文件已创建到"
+    write_file: "文件已写入到"
+    error_mkdir: "无法创建 TakeoffDataRecorder 文件夹，已回退到当前目录"
+    error_create_file: "无法创建文件"

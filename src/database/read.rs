@@ -17,10 +17,19 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 
 use std::{
     fs, 
-    path::PathBuf
+    path::PathBuf, 
+    process::exit
 };
 
-pub fn read_fap_file(path: &PathBuf) -> Result<String, Box<dyn std::error::Error>> {
-    let yaml = fs::read_to_string(path)?;
-    Ok(yaml)
+use crate::common::error::put_error;
+
+pub fn read_fap_file(path: &PathBuf) -> String {
+    let yaml = match fs::read_to_string(path) {
+        Ok(yaml) => yaml,
+        Err(error) => {
+            put_error(error.to_string());
+            exit(0);
+        }
+    };
+    yaml
 }

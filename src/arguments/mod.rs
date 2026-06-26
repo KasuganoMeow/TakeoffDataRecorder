@@ -17,7 +17,7 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 
 pub mod processing;
 
-mod help;
+pub mod help;
 mod record;
 mod stats;
 mod version;

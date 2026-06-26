@@ -20,7 +20,7 @@ basic:
   err_opt:  "Invalid operation"
   no_oper:  "No operation specified"
   to_help:  "Please type \"help\" to see usage instructions"
-  err_io:   "I/O error"
+  err_fatl: "Fatal error"
 
 help_info:  
   help:     "Output this help information"
@@ -34,25 +34,39 @@ help:
 record: 
   info:     "Record a \"takeoff\""
   usage:    "todr record"
-  to_star:  "Start recording this \"takeoff\""
-  to_name:  "Please enter your name (for data recognition)"
-  to_age:   "Please enter your age"
-  to_long:  "Please enter your \"aircraft\" length (cm)"
-  to_dura:  "Please enter your \"takeoff\" duration (sec)"
-  to_happ:  "Please enter your satisfaction level with the \"takeoff\" (%)"
-  err_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
 
 stats:
-  to_name:  "Please enter the name of the person whose data you need to statistics"
   err_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
   err_user: "No file belonging to this user was found"
+  sum_file: "Total number of files read"
+  ave_dura: "'s Average \"takeoff\" duration is"
+  ave_happ: "'s Average \"takeoff\" satisfaction was"
+  long_dif: "'s \"aircraft\" difference between the longest and shortest length is"
 
 version:  
-  info:     "Displays the version information of TakeoffDataRecorder"
+  info:     "Displays the version information of ToDR"
   usage:    "todr version"
 
-data:
-  err_crea: "Unable to create file"
-  err_mdir: "Unable to create TakeoffDataRecorder folder, backed up to current directory"
-  create:   "The file has been created to"
-  write:    "The file has been written to"
+database:
+  what_search_type: "Search by time or by name? [t(ime)/n(ame)]"
+  input_search_word: "Please enter search keyword"
+  collect:
+    table_name: "Name"
+    table_time: "Time"
+    found_file: "The following data was found in the database"
+  record:
+    start: "Start recording this \"takeoff\" data"
+    input_name: "Please enter your name (for data recognition)"
+    input_age: "Please enter your age"
+    input_long: "Please enter your \"aircraft\" length (cm)"
+    input_duration: "Please enter your \"takeoff\" duration (sec)"
+    input_happiness: "Please enter your satisfaction level with the \"takeoff\" (%)"
+    happiness_over_limit: "Satisfaction level exceeds the limit, automatically set to 100%"
+    error_read_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
+  search:
+    no_found_result: "Results that do not contain keywords"
+  write:
+    create_file: "The file has been created to"
+    write_file: "The file has been written to"
+    error_mkdir: "Unable to create TakeoffDataRecorder folder, backed up to current directory"
+    error_create_file: "Unable to create file"

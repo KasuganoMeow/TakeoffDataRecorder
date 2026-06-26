@@ -15,7 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use crate::data::SingleTakeoffDataT;
+use crate::database::SingleTakeoffDataT;
 
 pub fn data_to_yaml(data: &SingleTakeoffDataT) -> Result<String, Box<dyn std::error::Error>> {
     let yaml_data = serde_yml::to_string(&data)?;

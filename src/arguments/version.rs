@@ -17,6 +17,7 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 
 use std::process::exit;
 
+use rust_i18n::t;
 use yansi::Paint;
 
 pub fn version() -> ! {
@@ -34,4 +35,14 @@ ToDR.
 \nIf not, see <https://www.gnu.org/licenses/>."
     );
     exit(0);
+}
+
+pub fn help_version() {
+    println!(
+        "{}{}\n{}: {}",
+        "version: ".bold().blue(),
+        t!("help_info.version"),
+        t!("basic.usage"),
+        "todr version".green()
+    );
 }

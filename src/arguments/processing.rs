@@ -25,9 +25,24 @@ use rust_i18n::t;
 use crate::{
     IS_DEBUG, 
     arguments::{
-        help::help, record::record, stats::stats, version::version
+        help::help, 
+        record::{
+            help_record, 
+            record
+        }, 
+        stats::{
+            help_stats, 
+            stats
+        }, 
+        version::{
+            help_version, 
+            version
+        }
     }, 
-    common::error
+    common::{
+        error, 
+        input::get_string_from_input
+    }, console::todr_console
 };
 
 pub fn argument_processing() -> ! {
@@ -43,14 +58,51 @@ pub fn argument_processing() -> ! {
         }
     }
 
-    match args[1].as_str() {
-        "help"    => help(),
-        "record"  => record(),
-        "stats"   => stats(),
-        "version" => version(),
-        _         => {
-            error::put_error(t!("basic.err_opt").to_string());
-            exit(1);
-        },
+    if args.len() > 2 {
+        match args[1].as_str() {
+            "help"    => {
+                match args[2].as_str() {
+                    "record" => {
+                        help_record();
+                        exit(0);
+                    },
+                    "stats" => {
+                        help_stats();
+                        exit(0);
+                    },
+                    "version" => {
+                        help_version();
+                        exit(0);
+                    },
+                    _ => {
+                        error::put_error(t!("basic.err_opt").to_string());
+                        exit(1);
+                    },
+                }
+            },
+            "record" => record(),
+            "stats" => {
+                stats(args[2].trim().to_string());
+            },
+            "version" => version(),
+            _ => {
+                error::put_error(t!("basic.err_opt").to_string());
+                exit(1);
+            },
+        }
+    } else {
+        match args[1].as_str() {
+            "help" => help(),
+            "record" => record(),
+            "stats" => stats(
+                get_string_from_input("common.rto_name"),
+            ),
+            "version" => version(),
+            "console" => todr_console(),
+            _ => {
+                error::put_error(t!("basic.err_opt").to_string());
+                exit(1);
+            },
+        }
     }
 }

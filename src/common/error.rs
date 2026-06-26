@@ -15,14 +15,25 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
+use std::{io::Error, process::exit};
+
 use rust_i18n::t;
 use yansi::Paint;
 
 pub fn put_error(error: String) {
     eprintln!(
-            "{}: {}: {}",
-            "todr".bold().white(),
-            t!("basic.error").bold().white(),
-            error.bold().red()
-        );
+        "{}: {}: {}",
+        "todr".bold().white(),
+        t!("basic.error").bold().white(),
+        error.bold().red()
+    );
+}
+
+pub fn io_error(error: Error) {
+    eprintln!(
+        "[ToDR]: {}: {}", 
+        t!("basic.err_fatl"),
+        error
+    );
+    exit(74);
 }

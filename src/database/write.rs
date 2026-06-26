@@ -30,20 +30,20 @@ pub fn create_fap_file(dir: &PathBuf, filename: &String) -> Result<PathBuf, Box<
     let path = if dir.exists() || std::fs::create_dir_all(&dir).is_ok() {
         Path::new(&dir).join(&filename)
     } else {
-        eprintln!("{}", t!("data.err_mdir"));
+        eprintln!(" {}", t!("database.write.error_mkdir"));
         Path::new(".").join(&filename)
     };
     
     fs::write(&path, "")
-        .expect(&format!("{}", t!("data.err_crea").bold().red()));
-    println!("{}: {}", t!("data.create").bold().white(), path.display().green());
+        .expect(&format!(" {}", t!("database.write.error_create_file").bold().red()));
+    println!(" {}: {}", t!("database.write.create_file").white(), path.display().green());
 
     Ok(path)
 }
 
 pub fn write_fap_file(path: &PathBuf, yaml: &String) -> Result<(), Box<dyn std::error::Error>> {
     fs::write(&path, yaml)?;
-    println!("{}: {}", t!("data.write").bold().white(), path.display().green());
+    println!(" {}: {}", t!("database.write.write_file").white(), path.display().green());
 
     Ok(())
 }

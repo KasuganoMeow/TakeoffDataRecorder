@@ -17,26 +17,39 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 
 use std::process::exit;
 
-use rust_i18n::t;
 use yansi::Paint;
 
-use crate::arguments::{
-    record::help_record, 
-    stats::help_stats, 
-    version::help_version
+use crate::{
+    TODR_VERSION, 
+    console::{
+        flush, 
+        readline
+    }, 
+    database::{
+        list_database, 
+        record_data, 
+        search_database
+    }, 
 };
 
-pub fn help() -> ! {
-    println!(
-        "{}: {} [{}]\n", 
-        t!("basic.usage").bold().white(),
-        "todr",
-        t!("basic.option")
-    );
-    help_record();
-    print!("\n");
-    help_stats();
-    print!("\n");
-    help_version();
-    exit(0);
+pub fn console_loop() -> ! {
+    let version = TODR_VERSION.to_string();
+    loop {
+        print!(
+            "{} {} {} ", 
+            "ToDR".bold().white().blue(), 
+            version.bold().white().blue(),
+            "/>".bold().green()
+        );
+        flush();
+
+        match readline().as_str().trim() {
+            "help" => crate::arguments::help::help(),
+            "record" => record_data(),
+            "list" => list_database(),
+            "search" => search_database(),
+            "exit" => exit(0),
+            _ => continue,
+        }
+    }
 }

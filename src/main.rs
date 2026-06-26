@@ -24,7 +24,7 @@ use sys_locale::get_locale;
 mod arguments;
 mod common;
 mod console;
-mod data;
+mod database;
 mod yaml;
 
 rust_i18n::i18n!("locales", fallback = "en");
