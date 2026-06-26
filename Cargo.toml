@@ -5,6 +5,7 @@ edition = "2024"
 license = "AGPL-3.0-or-later"
 
 [dependencies]
+chrono = "0.4.45"
 home = "0.5.12"
 rust-i18n = "4.1.0"
 serde = "1.0.228"

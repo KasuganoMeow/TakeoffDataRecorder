@@ -26,24 +26,24 @@ use std::{
 use rust_i18n::t;
 use yansi::Paint;
 
-pub fn create_fap_file(dir: PathBuf, filename: String) -> PathBuf {
-    let file_path = if dir.exists() || std::fs::create_dir_all(&dir).is_ok() {
+pub fn create_fap_file(dir: &PathBuf, filename: &String) -> Result<PathBuf, Box<dyn std::error::Error>> {
+    let path = if dir.exists() || std::fs::create_dir_all(&dir).is_ok() {
         Path::new(&dir).join(&filename)
     } else {
         eprintln!("{}", t!("data.err_mdir"));
         Path::new(".").join(&filename)
     };
     
-    fs::write(&file_path, "")
+    fs::write(&path, "")
         .expect(&format!("{}", t!("data.err_crea").bold().red()));
-    println!("{}: {}", t!("data.create").bold().white(), file_path.display().green());
+    println!("{}: {}", t!("data.create").bold().white(), path.display().green());
 
-    return file_path;
+    Ok(path)
 }
 
-pub fn write_fap_file(file_path: PathBuf, data: String) -> Result<(), Box<dyn std::error::Error>> {
-    fs::write(&file_path, data)?;
-    println!("{}: {}", t!("data.write").bold().white(), file_path.display().green());
+pub fn write_fap_file(path: &PathBuf, yaml: &String) -> Result<(), Box<dyn std::error::Error>> {
+    fs::write(&path, yaml)?;
+    println!("{}: {}", t!("data.write").bold().white(), path.display().green());
 
     Ok(())
 }

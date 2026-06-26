@@ -17,7 +17,7 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 
 use crate::data::SingleTakeoffDataT;
 
-pub fn data_to_yaml(data: &SingleTakeoffDataT) -> Result<String, Box<dyn std::error::Error>> {
-    let yaml_data = serde_yml::to_string(&data)?;
-    Ok(yaml_data)
+pub fn yaml_to_data(yanl_data: &String) -> Result<SingleTakeoffDataT, Box<dyn std::error::Error>> {
+    let data = serde_yml::from_str(yanl_data)?;
+    Ok(data)
 }

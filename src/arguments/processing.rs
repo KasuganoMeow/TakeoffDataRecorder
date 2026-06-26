@@ -15,25 +15,26 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use std::env;
+use std::{
+    env, 
+    process::exit
+};
 
 use rust_i18n::t;
 
 use crate::{
     IS_DEBUG, 
     arguments::{
-        help::help, 
-        record::record, 
-        version::version
+        help::help, record::record, stats::stats, version::version
     }, 
     common::error
 };
 
-pub fn argument_processing() {
+pub fn argument_processing() -> ! {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         error::put_error(t!("basic.no_oper").to_string());
-        return;
+        exit(1);
     }
 
     for arg in &args {
@@ -45,10 +46,11 @@ pub fn argument_processing() {
     match args[1].as_str() {
         "help"    => help(),
         "record"  => record(),
+        "stats"   => stats(),
         "version" => version(),
         _         => {
             error::put_error(t!("basic.err_opt").to_string());
-            return;
+            exit(1);
         },
     }
 }

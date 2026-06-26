@@ -14,3 +14,13 @@ PURPOSE. See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with 
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
+
+use std::{
+    fs, 
+    path::PathBuf
+};
+
+pub fn read_fap_file(path: &PathBuf) -> Result<String, Box<dyn std::error::Error>> {
+    let yaml = fs::read_to_string(path)?;
+    Ok(yaml)
+}

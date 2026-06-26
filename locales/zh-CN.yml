@@ -40,6 +40,12 @@ record:
   to_long:  "请输入你的 \"飞机\" 长度 (厘米)"
   to_dura:  "请输入你的 \"起飞\" 持续时间 (秒)"
   to_happ:  "请输入你对 \"起飞\" 的满意度 (%)"
+  err_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
+
+stats:
+  to_name:  "请输入需要统计数据的名字"
+  err_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
+  err_user: "没有找到属于该用户的文件"
 
 version:  
   info:     "显示 TakeoffDataRecorder 的版本信息"

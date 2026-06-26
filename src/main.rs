@@ -15,9 +15,9 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use std::{
-    process::exit, 
-    sync::{LazyLock, Mutex}
+use std::sync::{
+    LazyLock, 
+    Mutex
 };
 use sys_locale::get_locale;
 
@@ -44,6 +44,4 @@ fn main() {
     }
     
     arguments::processing::argument_processing();
-
-    exit(1);
 }

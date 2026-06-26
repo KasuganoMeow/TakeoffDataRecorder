@@ -19,4 +19,5 @@ pub mod processing;
 
 mod help;
 mod record;
+mod stats;
 mod version;

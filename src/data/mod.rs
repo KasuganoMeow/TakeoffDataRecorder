@@ -18,25 +18,45 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 pub mod read;
 pub mod write;
 
-use serde::Serialize;
+use serde::{
+    Deserialize, 
+    Serialize
+};
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct SingleTakeoffDataT {
-    pub version:  String,
-    pub time:     u64,
+    pub version: String,
+    pub time: u64,
     pub identity: IdentityInfoT,
-    pub takeoff:  TakeoffInfoT,
+    pub takeoff: TakeoffInfoT,
 }
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct IdentityInfoT {
     pub name: String,
-    pub age:  u8,
+    pub age: u8,
     pub long: u8,
 }
 
-#[derive(Serialize)]
+#[derive(Deserialize, Serialize)]
 pub struct TakeoffInfoT {
-    pub duration:  u64,
-    pub happiness: u8,
+    pub duration: u64,
+    pub happiness: u64,
+}
+
+#[allow(dead_code)]
+pub struct StatisticsT {
+    pub file_count: u64,
+    pub takeoff_stats: TakeoffStatsT,
+    pub identityinfo_stats: IdentityInfoStatsT,
+}
+
+pub struct TakeoffStatsT {
+    pub ave_duration: u64,
+    pub ave_happiness: u64,
+}
+
+#[allow(dead_code)]
+pub struct IdentityInfoStatsT {
+    pub long_grow_rate: u16,
 }

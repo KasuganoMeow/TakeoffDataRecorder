@@ -40,6 +40,12 @@ record:
   to_long:  "Please enter your \"aircraft\" length (cm)"
   to_dura:  "Please enter your \"takeoff\" duration (sec)"
   to_happ:  "Please enter your satisfaction level with the \"takeoff\" (%)"
+  err_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
+
+stats:
+  to_name:  "Please enter the name of the person whose data you need to statistics"
+  err_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
+  err_user: "No file belonging to this user was found"
 
 version:  
   info:     "Displays the version information of TakeoffDataRecorder"

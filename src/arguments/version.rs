@@ -19,7 +19,7 @@ use std::process::exit;
 
 use yansi::Paint;
 
-pub fn version() {
+pub fn version() -> ! {
     println!("{}", "TakeoffDataRecorder (ToDR) 0.1".bold().blue());
             println!("{}", "Copyright (C) 2026 KasuganoMeow".bold().white());
             println!(

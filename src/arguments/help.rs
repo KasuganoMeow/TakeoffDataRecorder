@@ -20,7 +20,7 @@ use std::process::exit;
 use rust_i18n::t;
 use yansi::Paint;
 
-pub fn help() {
+pub fn help() -> ! {
     println!(
         "{}: {} [{}]\n", 
         t!("basic.usage").bold().white(),

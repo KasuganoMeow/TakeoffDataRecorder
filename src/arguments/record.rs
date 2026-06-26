@@ -16,13 +16,10 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
 use std::{
-    io::{
+    fs, io::{
         self, 
         Write
-    }, 
-    path::PathBuf, 
-    process::exit, 
-    time::{
+    }, path::PathBuf, process::exit, time::{
         SystemTime, 
         UNIX_EPOCH
     }
@@ -42,7 +39,7 @@ use crate::{
     yaml::serialization::data_to_yaml
 };
 
-pub fn record() {
+pub fn record() -> ! {
     println!("{}",t!("record.to_star").bold().white());
 
     let mut identity_info = IdentityInfoT {
@@ -188,7 +185,7 @@ pub fn record() {
             continue 'happiness;
         }
 
-        match buffer.trim().parse::<u8>() {
+        match buffer.trim().parse::<u64>() {
             Ok(happiness) => {
                 takeoff_info.happiness = happiness;
                 String::clear(&mut buffer);
@@ -204,32 +201,53 @@ pub fn record() {
 
     String::clear(&mut buffer);
 
-    let single_takeoff_data = SingleTakeoffDataT {
-        version: TODR_VERSION.to_string(),
-        time: 0,
-        identity: identity_info,
-        takeoff: takeoff_info,
-    };
-
-    let home = home::home_dir().unwrap_or_else(|| {
-        eprintln!("{}", t!("data.err_home"));
-        std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
-    });
-    let dir = home.join("TakeoffDataRecorder");
-
+    // Get UNIX time
     let time = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map(|d| d.as_secs())
         .unwrap_or(0);
+
+    // Building YAML struct
+    let single_takeoff_data = SingleTakeoffDataT {
+        version: TODR_VERSION.to_string(),
+        time: time,
+        identity: identity_info,
+        takeoff: takeoff_info,
+    };
+
+    // Build file name and path and create .fap file
+    let home = home::home_dir().unwrap_or_else(|| {
+        eprintln!("{}", t!("record.err_home"));
+        std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
+    });
+    let dir = home.join("TakeoffDataRecorder");
     
     let filename = format!("{}-{}.fap", single_takeoff_data.identity.name, time);
 
-    let file_path = create_fap_file(dir, filename);
-    
-    if let Err(e) = write_fap_file(file_path, data_to_yaml(&single_takeoff_data)) {
+    let data = match data_to_yaml(&single_takeoff_data) {
+        Ok(d) => d,
+        Err(e) => {
+            put_error(e.to_string());
+            record();
+        }
+    };
+
+    let file_path = match create_fap_file(&dir, &filename) {
+        Ok(fp) => fp,
+        Err(e) => {
+            put_error(e.to_string());
+            exit(1);
+        }
+    };
+
+    if let Err(e) = write_fap_file(&file_path, &data) {
         put_error(e.to_string());
-        exit(1);
-    }
-    
+        if let Err(e) = fs::remove_file(&file_path) {
+                put_error(e.to_string());
+                exit(1);
+            }
+        record();
+    };
+
     exit(0);
 }
