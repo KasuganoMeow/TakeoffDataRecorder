@@ -17,63 +17,65 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 
 use rust_i18n::t;
 
-pub fn search_by_time(pairs: &[(i64, String, String)], time_str: &str) -> Vec<(i64, String, String)> {
+pub fn search_database_by_time(pairs: &[(i64, String, String)], time_str: &str) -> Vec<(i64, String, String)> {
     let mut results = Vec::new();
-    
+
     for item in pairs {
         if item.2.contains(time_str) {
             results.push(item.clone());
         }
     }
-    
+
     results
 }
 
-pub fn search_by_name(pairs: &[(i64, String, String)], name: &str) -> Vec<(i64, String, String)> {
+pub fn search_database_by_name(pairs: &[(i64, String, String)], name: &str) -> Vec<(i64, String, String)> {
     let mut results = Vec::new();
-    
+
     for item in pairs {
         if item.1.contains(name) {
             results.push(item.clone());
         }
     }
-    
+
     results
 }
 
 pub fn output_search_results(results: &[(i64, String, String)]) {
     if results.is_empty() {
-        println!(" {}", t!("database.search.no_found_result"));
+        println!("{}", t!("database.search.no_found_result"));
         return;
     }
-    
+
     let mut max_left = t!("database.collect.table_name").len();
     let mut max_right = t!("database.collect.table_time").len();
-    
+
     for (_, left, right) in results {
         max_left = max_left.max(left.len());
         max_right = max_right.max(right.len());
     }
-    
+
     println!(
-        " {:<width_left$} | {:<width_right$}", 
+        "{:<width_left$} | {:<width_right$}", 
         t!("database.collect.table_name"), t!("database.collect.table_time"), 
         width_left = max_left - 2, 
         width_right = max_right
     );
     println!(
-        " {:-<width_left$}-+-{:-<width_right$}", 
+        "{:-<width_left$}-+-{:-<width_right$}", 
         "", "", 
         width_left = max_left, 
         width_right = max_right
     );
-    
+
     for (_, left, right) in results {
         println!(
-            " {:<width_left$} | {:<width_right$}", 
+            "{:<width_left$} | {:<width_right$}", 
             left, right,
             width_left = max_left, 
             width_right = max_right
         );
     }
+
+    println!("");
 }

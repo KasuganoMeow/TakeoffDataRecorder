@@ -15,9 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-pub mod processing;
-
-pub mod help;
-mod record;
-mod stats;
-mod version;
+pub mod console;
+pub mod direct;
+pub mod input;
+pub mod output;

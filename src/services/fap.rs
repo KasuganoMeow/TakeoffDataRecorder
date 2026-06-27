@@ -15,28 +15,23 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use std::process::exit;
+use std::fs;
+use std::path::PathBuf;
 
-use rust_i18n::t;
-use yansi::Paint;
+use crate::utils::{directory, data, name};
 
-use crate::arguments::{
-    record::help_record, 
-    stats::help_stats, 
-    version::help_version
-};
-
-pub fn help() -> ! {
-    println!(
-        "{}: {} [{}]\n", 
-        t!("basic.usage").bold().white(),
-        "todr",
-        t!("basic.option")
+pub fn fap_service_create(information: (String, String), directory: PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+    let filename = name::gen_filename_with_name_and_now_time(
+        information.0, 
+        ".fap"
     );
-    help_record();
-    print!("\n");
-    help_stats();
-    print!("\n");
-    help_version();
-    exit(0);
+    let path = directory::check_directory(&directory, &filename)?;
+    data::create_data_file(&path)?;
+    if let Err(error) = data::write_data_file(&path, &information.1) {
+        if let Err(error) = fs::remove_file(&path) {
+            return Err(Box::new(error));
+        }
+        return Err(error);
+    };
+    Ok(())
 }

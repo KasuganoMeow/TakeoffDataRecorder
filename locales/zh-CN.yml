@@ -35,38 +35,39 @@ record:
   info:     "记录一次 \"起飞\""
   usage:    "todr record"
 
-stats:
-  err_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
-  err_user: "没有找到属于该用户的文件"
-  sum_file: "总共读取的文件数量"
-  ave_dura: " 的平均 \"起飞\" 时间为"
-  ave_happ: " 的平均 \"起飞\" 满意度为"
-  long_dif: " 的 \"飞机\" 最长和最短时的差异为"
-
 version:
   info:     "显示 ToDR 的版本信息"
   usage:    "todr version"
 
+control:
+  output:
+    statistics:
+      sum_of_file: "总共读取的文件数量"
+      average_of_duration: " 的平均 \"起飞\" 时间为"
+      average_of_happiness: " 的平均 \"起飞\" 满意度为"
+      long_difference: " 的 \"飞机\" 最长和最短时的差异为"
+    collect:
+      table_name: "名字"
+      table_time: "时间"
+      found_file: "在数据库中找到如下数据"
+
 database:
   what_search_type: "按时间搜索或按名字搜索? [t(时间)/n(名字)]"
   input_search_word: "请输入搜索关键字"
-  collect:
-    table_name: "名字"
-    table_time: "时间"
-    found_file: "在数据库中找到如下数据"
   record:
-    start: "开始记录本次 \"起飞\" 数据"
-    input_name: "请输入你的名字 (用于数据识别)"
+    record_start: "开始记录本次 \"起飞\" 数据"
+    input_name: "请输入你的名字 (或留空以保持匿名)"
     input_age: "请输入你的年龄"
     input_long: "请输入你的 \"飞机\" 长度 (厘米)"
     input_duration: "请输入你的 \"起飞\" 持续时间 (秒)"
     input_happiness: "请输入你对 \"起飞\" 的满意度 (%)"
     happiness_over_limit: "满意度超过上限，自动设置为 100%"
-    error_read_home: "无法读取家目录，使用当前路径下的 TakeoffDataRecorder 文件夹"
   search:
     no_found_result: "其中没有包含关键字的结果"
-  write:
-    create_file: "文件已创建到"
-    write_file: "文件已写入到"
-    error_mkdir: "无法创建 TakeoffDataRecorder 文件夹，已回退到当前目录"
-    error_create_file: "无法创建文件"
+  statistics:
+    who: "请输入您要统计其数据的人员姓名"
+    error_user_file: "没有找到属于该用户的文件"
+
+utils:
+  directory:
+    error_get_home: "无法获取家目录"

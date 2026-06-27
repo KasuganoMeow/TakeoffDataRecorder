@@ -35,38 +35,39 @@ record:
   info:     "Record a \"takeoff\""
   usage:    "todr record"
 
-stats:
-  err_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
-  err_user: "No file belonging to this user was found"
-  sum_file: "Total number of files read"
-  ave_dura: "'s Average \"takeoff\" duration is"
-  ave_happ: "'s Average \"takeoff\" satisfaction was"
-  long_dif: "'s \"aircraft\" difference between the longest and shortest length is"
-
 version:  
   info:     "Displays the version information of ToDR"
   usage:    "todr version"
 
+control:
+  output:
+    statistics:
+      sum_of_file: "Total number of files read"
+      average_of_duration: "'s Average \"takeoff\" duration is"
+      average_of_happiness: "'s Average \"takeoff\" satisfaction was"
+      long_difference: "'s \"aircraft\" difference between the longest and shortest length is"
+    collect:
+      table_name: "Name"
+      table_time: "Time"
+      found_file: "The following data was found in the database"
+
 database:
   what_search_type: "Search by time or by name? [t(ime)/n(ame)]"
   input_search_word: "Please enter search keyword"
-  collect:
-    table_name: "Name"
-    table_time: "Time"
-    found_file: "The following data was found in the database"
   record:
-    start: "Start recording this \"takeoff\" data"
-    input_name: "Please enter your name (for data recognition)"
+    record_start: "Start recording this \"takeoff\" data"
+    input_name: "Please enter your name (or leave blank to remain anonymous)"
     input_age: "Please enter your age"
     input_long: "Please enter your \"aircraft\" length (cm)"
     input_duration: "Please enter your \"takeoff\" duration (sec)"
     input_happiness: "Please enter your satisfaction level with the \"takeoff\" (%)"
     happiness_over_limit: "Satisfaction level exceeds the limit, automatically set to 100%"
-    error_read_home: "Unable to read home directory, using the TakeoffDataRecorder folder in the current path"
   search:
     no_found_result: "Results that do not contain keywords"
-  write:
-    create_file: "The file has been created to"
-    write_file: "The file has been written to"
-    error_mkdir: "Unable to create TakeoffDataRecorder folder, backed up to current directory"
-    error_create_file: "Unable to create file"
+  statistics:
+    who: "Please enter the name of the person whose data you want to statistics"
+    error_user_file: "No file belonging to this user was found"
+
+utils:
+  directory:
+    error_get_home: "Unable to get home directory"

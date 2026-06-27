@@ -15,9 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use crate::database::SingleTakeoffDataT;
-
-pub fn yaml_to_data(yanl_data: &String) -> Result<SingleTakeoffDataT, Box<dyn std::error::Error>> {
-    let data = serde_yml::from_str(yanl_data)?;
-    Ok(data)
-}
+pub mod directory;
+pub mod data;
+pub mod name;
+pub mod time;

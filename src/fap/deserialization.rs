@@ -15,21 +15,17 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use std::{
-    fs, 
-    path::PathBuf, 
-    process::exit
-};
+use std::process::exit;
 
-use crate::common::error::put_error;
+use crate::database::SingleTakeoffDataT;
 
-pub fn read_fap_file(path: &PathBuf) -> String {
-    let yaml = match fs::read_to_string(path) {
-        Ok(yaml) => yaml,
+pub fn fap_to_data(fap: &String) -> SingleTakeoffDataT {
+    let data = match serde_yml::from_str(fap) {
+        Ok(data) => data,
         Err(error) => {
-            put_error(error.to_string());
-            exit(0);
+            eprintln!("{}", error);
+            exit(1);
         }
     };
-    yaml
+    data
 }

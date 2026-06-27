@@ -19,37 +19,34 @@ use std::process::exit;
 
 use yansi::Paint;
 
-use crate::{
-    TODR_VERSION, 
-    console::{
-        flush, 
-        readline
-    }, 
-    database::{
-        list_database, 
-        record_data, 
-        search_database
-    }, 
-};
+use crate::control::{input, output};
+use crate::database;
+use crate::services;
 
-pub fn console_loop() -> ! {
-    let version = TODR_VERSION.to_string();
+pub fn console_loop() {
     loop {
         print!(
             "{} {} {} ", 
             "ToDR".bold().white().blue(), 
-            version.bold().white().blue(),
+            "0.1.0".bold().white().blue(),
             "/>".bold().green()
         );
-        flush();
+        output::flush();
 
-        match readline().as_str().trim() {
-            "help" => crate::arguments::help::help(),
-            "record" => record_data(),
-            "list" => list_database(),
-            "search" => search_database(),
-            "exit" => exit(0),
-            _ => continue,
+        let command = input::readline();
+
+        if let Some(split_command) = command.as_str().trim().split_whitespace().next() {
+            match split_command {
+                "help" => exit(0),
+                "record" => services::record::record_service_console(),
+                "list" => services::collect::collect_service(),
+                "search" => database::search_database(),
+                "stats" => services::statistics::statistics_service_console(),
+                "exit" => exit(0),
+                _ => continue,
+            }
+        } else {
+            continue;
         }
     }
 }

@@ -15,25 +15,25 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-use std::{io::Error, process::exit};
+use std::fs;
+use std::path::PathBuf;
 
-use rust_i18n::t;
-use yansi::Paint;
-
-pub fn put_error(error: String) {
-    eprintln!(
-        "{}: {}: {}",
-        "todr".bold().white(),
-        t!("basic.error").bold().white(),
-        error.bold().red()
-    );
+pub fn create_data_file(path: &PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+    fs::write(&path, "")?;
+    Ok(())
 }
 
-pub fn io_error(error: Error) {
-    eprintln!(
-        "[ToDR]: {}: {}", 
-        t!("basic.err_fatl"),
-        error
-    );
-    exit(74);
+pub fn read_data_file(path: &PathBuf) -> Result<String, Box<dyn std::error::Error>> {
+    let contents: String = match fs::read_to_string(path) {
+        Ok(contents) => contents,
+        Err(error) => {
+            return Err(Box::new(error));
+        }
+    };
+    Ok(contents)
+}
+
+pub fn write_data_file(path: &PathBuf, content: &String) -> Result<(), Box<dyn std::error::Error>> {
+    fs::write(&path, content)?;
+    Ok(())
 }

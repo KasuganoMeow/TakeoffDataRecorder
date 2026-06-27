@@ -15,5 +15,15 @@ You should have received a copy of the GNU Affero General Public License along w
 ToDR. If not, see <https://www.gnu.org/licenses/>.
 */
 
-pub mod error;
-pub mod input;
+use crate::{control, database};
+
+pub fn statistics_service_console() {
+    let (name, statistics) = match database::statistics::get_statistics() {
+        Ok(tuple) => tuple,
+        Err(error) => {
+            eprintln!("{}\n", error);
+            return;
+        }
+    };
+    control::output::output_stats(name, statistics);
+}

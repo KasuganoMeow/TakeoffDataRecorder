@@ -18,43 +18,12 @@ ToDR. If not, see <https://www.gnu.org/licenses/>.
 use std::env;
 use std::process::exit;
 
-use rust_i18n::t;
-use sys_locale::get_locale;
+use crate::services;
 
-mod control;
-mod database;
-mod fap;
-mod services;
-mod utils;
-
-
-rust_i18n::i18n!("locales", fallback = "en");
-
-fn main() {
-    // Get locale to initialization rust-i18n
-    if let Some(locale) = get_locale() {
-        rust_i18n::set_locale(&locale);
-    } else {
-        println!("Unable to read system language, fallback to en-US (en_US)");
-    }
-    
+pub fn direct_loop() {
     let args: Vec<String> = env::args().collect();
-
-    if args.len() < 2 {
-        eprintln!("{}", t!("basic.no_oper"));
-        exit(1);
-    }
-
-    match args[1].as_str() {
-        "console" => control::console::console_loop(),
-        "direct" => control::direct::direct_loop(),
-        "\n" => {
-            eprintln!("{}", t!("basic.no_poer"));
-            exit(1);
-        },
-        _ => {
-            eprintln!("{}", t!("basic.err_opt"));
-            exit(1);
-        },
+    match args[2].as_str() {
+        "list" => services::collect::collect_service(),
+        _=> exit(0)
     }
 }
